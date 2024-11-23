@@ -9,11 +9,10 @@ pipeline {
             }
         }
 
-        stage('Setup Environment') {
+        stage('Install Dependencies') {
             steps {
-                echo 'Setting up Python environment...'
-                sh 'python3 -m venv venv'
-                sh '. venv/bin/activate && pip install -r requirements.txt'
+                echo 'Installing dependencies...'
+                sh 'pip3 install -r requirements.txt || echo "No requirements file found"'
             }
         }
 
@@ -21,13 +20,6 @@ pipeline {
             steps {
                 echo 'Running Python script...'
                 sh 'python3 script.py'
-            }
-        }
-
-        stage('Post-Cleanup') {
-            steps {
-                echo 'Cleaning up...'
-                sh 'rm -rf venv'
             }
         }
     }
